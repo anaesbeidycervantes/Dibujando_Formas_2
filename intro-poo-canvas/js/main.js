@@ -40,7 +40,7 @@ class Circle {
         // Cambiar color del contorno según el tipo de canvas
         context.strokeStyle = this.borderColor;
         // Cambiar grosor del contorno
-        context.lineWidth = 2; // Grosor del contorno (puedes cambiar este valor)
+        context.lineWidth = 4; // Grosor del contorno (puedes cambiar este valor)
         // Dibujar el contorno del círculo
         context.stroke();
 
@@ -64,16 +64,12 @@ class Circle {
         this.posX += this.speedX;
         this.posY += this.speedY;
 
-        // Verificar los límites del canvas y ajustar la posición para evitar que los círculos se salgan
+        // Verificar los límites del canvas
         if (this.posX - this.radius <= 0 || this.posX + this.radius >= canvasWidth) {
             this.speedX *= -1; // Invertir la dirección en X si el círculo toca los bordes laterales
-            // Ajustar la posición para que el círculo no se salga completamente del canvas
-            this.posX = Math.max(this.radius, Math.min(canvasWidth - this.radius, this.posX));
         }
         if (this.posY - this.radius <= 0 || this.posY + this.radius >= canvasHeight) {
             this.speedY *= -1; // Invertir la dirección en Y si el círculo toca los bordes superior o inferior
-            // Ajustar la posición para que el círculo no se salga completamente del canvas
-            this.posY = Math.max(this.radius, Math.min(canvasHeight - this.radius, this.posY));
         }
     }
 }
@@ -104,11 +100,11 @@ circleRandom.draw(ctx1);
 const arrayCircle = [];
 
 for (let i = 0; i < 10; i++) {
-    let randomX = Math.random() * canvasPOO_2.width;
-    let randomY = Math.random() * canvasPOO_2.height;
+    let randomX = Math.random() * (canvasPOO_2.width - 2 * radius) + radius;
+    let randomY = Math.random() * (canvasPOO_2.height - 2 * radius) + radius;
 
     let randomRadius = getRandomRadius(canvasPOO_2.width, canvasPOO_2.height, 10, 30); // Reducir el rango de tamaños de los círculos
-    let miCirculo = new Circle(randomX, randomY, randomRadius, "blue", i + 1, 'white', 'black', "POO_2"); // Cambio de color del contorno a negro
+    let miCirculo = new Circle(randomX, randomY, randomRadius, "blue", i + 1, 'white', 'white', "POO_2"); // Cambio de color del contorno a negro
     miCirculo.setFontSize(randomRadius); // Establecer tamaño de la fuente proporcional al radio del círculo
     arrayCircle.push(miCirculo);
 }
@@ -120,7 +116,8 @@ function drawAndUpdate() {
         circle.updatePosition(canvasPOO_2.width, canvasPOO_2.height); // Actualizar la posición del círculo
         circle.draw(ctx2); // Dibujar el círculo actualizado
     });
+    requestAnimationFrame(drawAndUpdate); // Solicitar la siguiente animación
 }
 
-// Dibujar los círculos en canvasPOO_2 al cargar la página
+// Iniciar la animación
 drawAndUpdate();
